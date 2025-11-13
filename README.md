@@ -47,10 +47,16 @@ Perfect for anyone who:
 - **Visual Charts**: Bar charts for weekly calorie trends and meal frequency by hour
 - **Eating Patterns**: Discover your most active eating hours and habits
 
-### 🍳 Recipes & Meal Planning
-- **Recipe Discovery**: Browse 1000+ recipes from TheMealDB API
+### 🍳 Recipes & Cooking Mode
+- **Recipe Discovery**: Browse 1000+ recipes from TheMealDB API (loaded 6x faster with parallel fetching)
 - **Recipe Search & Filters**: Search by name or filter by category (Breakfast, Vegetarian, Seafood, etc.)
 - **Recipe Cost Estimation**: Automatic cost and prep time estimates for each recipe
+- **Immersive Cooking Mode**: Step-by-step cooking interface with:
+  - Pre-cooking ingredient checklist
+  - Scrollable step-by-step instructions
+  - Screen keep-awake during cooking
+  - Large, readable text optimized for kitchen use
+  - Completion screen with "Finish & Log" to automatically track your meal
 - **Weekly Meal Planner**: Plan meals for each day of the week (breakfast, lunch, dinner)
 - **Shopping List Generator**: Auto-generate shopping lists from your meal plan with ingredient tracking
 - **Export Shopping List**: Share to Bring!, AnyList, OurGroceries, or any app
@@ -347,6 +353,12 @@ The app features a modern Material Design 3 interface with extensive customizati
 - **Recipe accuracy**: TheMealDB data sometimes lacks precise nutritional information
 - **Cost estimation**: Recipe costs are estimates based on average prices
 
+### Recent Updates
+- **Cooking Mode v2.0**: Complete redesign with portrait scrolling, ingredient checklist, and meal logging
+- **Recipe Performance**: 6x faster loading with parallel API calls
+- **Type Safety**: Enhanced TypeScript types with nullish coalescing guards
+- **UI Polish**: Improved responsive layouts and text sizing
+
 ### Features Not Yet Implemented
 - **Cloud sync**: All data is local only (no backup or cross-device sync)
 - **User accounts**: No authentication system
@@ -354,6 +366,8 @@ The app features a modern Material Design 3 interface with extensive customizati
 - **Barcode scanning**: Not yet implemented (planned feature)
 - **Photo upload**: No meal photo capture/storage
 - **Export formats**: Limited to CSV only (no PDF or other formats)
+- **Multi-timers**: Simultaneous cooking timers not yet added
+- **Voice commands**: Hands-free cooking control planned
 
 
 ## Developer

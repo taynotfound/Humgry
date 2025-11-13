@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules/
-
+website
 # Expo
 .expo/
 dist/

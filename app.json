@@ -4,7 +4,7 @@
     "slug": "humngry",
     "version": "1.4.0",
     "orientation": "portrait",
-    "icon": "./assets/images/iconnobg.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "humngry",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -16,7 +16,7 @@
       "versionCode": 5,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/iconnobg.png"
+        "foregroundImage": "./assets/images/icon.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false

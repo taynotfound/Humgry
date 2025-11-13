@@ -1,4 +1,5 @@
 import AppBar from '@/components/AppBar';
+import AppFooter from '@/components/AppFooter';
 import MealComparisonModal from '@/components/MealComparisonModal';
 import MealDetailModal from '@/components/MealDetailModal';
 import { useSettings } from '@/contexts/settings-context';
@@ -388,13 +389,14 @@ export default function HistoryScreen() {
       />
     </PaperProvider>
     <AppBar />
+    <AppFooter />
     </>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingTop: 122, paddingBottom: 180 },
+  content: { padding: 16, paddingTop: 125, paddingBottom: 60 },
   statusBarSpacer: { height: 24 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 },
   title: { fontWeight: '800', letterSpacing: -0.5, marginBottom: 4 },

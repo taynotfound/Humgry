@@ -1,4 +1,5 @@
 import AppBar from '@/components/AppBar';
+import AppFooter from '@/components/AppFooter';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import { useGameProgress } from '@/hooks/useGameProgress';
@@ -354,6 +355,7 @@ export default function ChallengesScreen() {
         </ScrollView>
       </SafeAreaView>
       <AppBar />
+      <AppFooter />
     </PaperProvider>
   );
 }
@@ -369,8 +371,8 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-    paddingTop: 122,
-    paddingBottom: 100,
+    paddingTop: 125,
+    paddingBottom: 60,
   },
   statsCard: {
     marginBottom: 16,

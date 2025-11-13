@@ -1,4 +1,5 @@
 import AppBar from '@/components/AppBar';
+import AppFooter from '@/components/AppFooter';
 import FoodPicker from '@/components/FoodPicker';
 import { useSettings } from '@/contexts/settings-context';
 import { MealEntry, useEntries } from '@/hooks/useEntries';
@@ -232,13 +233,6 @@ export default function HomeScreen() {
         >
           <View style={styles.statusBarSpacer} />
           <View style={styles.header}>
-            <View style={styles.titleRow}>
-              <View style={{ flex: 1, maxWidth: '75%' }}>
-                <Text style={[styles.title, { color: colors.text }]}>🍽️ Humngry</Text>
-                <Text style={[styles.tagline, { color: colors.textSecondary }]}>Track your meals simply</Text>
-              </View>
-              <View style={{ width: 80 }} />
-            </View>
 
             {/* Stats Row Below Title */}
             {entries.length > 0 && (
@@ -873,13 +867,14 @@ export default function HomeScreen() {
         </Portal>
       </SafeAreaView>
       <AppBar />
+      <AppFooter />
     </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingTop: 122, paddingBottom: 100 },
+  content: { padding: 16, paddingTop: 125, paddingBottom: 60 },
   statusBarSpacer: { height: 24 },
   header: { marginBottom: 16 },
   titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },

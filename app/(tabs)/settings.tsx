@@ -1,4 +1,5 @@
 import AppBar from '@/components/AppBar';
+import AppFooter from '@/components/AppFooter';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import { getNotificationSettings, NotificationSettings, saveNotificationSettings, scheduleSmartNotifications } from '@/services/notifications';
@@ -851,6 +852,7 @@ export default function SettingsScreen() {
       </Portal>
     </PaperProvider>
       <AppBar />
+      <AppFooter />
     </>
   );
 }
@@ -858,7 +860,7 @@ export default function SettingsScreen() {
 // Note: Styles will be dynamically adjusted by getFontSize() in components
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingTop: 122, paddingBottom: 100 },
+  content: { padding: 16, paddingTop: 125, paddingBottom: 60 },
   statusBarSpacer: { height: 24 },
   title: { fontSize: 28, fontWeight: '800', marginBottom: 16, letterSpacing: -0.5 },
   card: { marginBottom: 16, borderRadius: 12, elevation: 4 },

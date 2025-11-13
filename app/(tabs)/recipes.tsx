@@ -1,4 +1,5 @@
 import AppBar from '@/components/AppBar';
+import AppFooter from '@/components/AppFooter';
 import { useSettings } from '@/contexts/settings-context';
 import { estimatePrepTime, estimateRecipeCost, estimateServings, generateRecipeCostInsight } from '@/services/recipeCostEstimator';
 import { getRandomRecipes, getRecipesByCategory, Recipe, searchRecipes } from '@/services/recipes';
@@ -641,6 +642,7 @@ export default function RecipesScreen() {
 
       </SafeAreaView>
       <AppBar />
+      <AppFooter />
     </PaperProvider>
   );
 }
@@ -651,8 +653,8 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-    paddingTop: 122,
-    paddingBottom: 100,
+    paddingTop: 125,
+    paddingBottom: 60,
   },
   statusBarSpacer: { height: 24 },
   title: {

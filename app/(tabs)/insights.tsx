@@ -1,4 +1,5 @@
 import AppBar from '@/components/AppBar';
+import AppFooter from '@/components/AppFooter';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import { calculateCostPerCalorie, generateCostInsights, getMonthlyBreakdown } from '@/services/costAnalysis';
@@ -291,13 +292,14 @@ export default function InsightsScreen() {
       </SafeAreaView>
     </PaperProvider>
       <AppBar />
+      <AppFooter />
     </>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingTop: 122, paddingBottom: 100 },
+  content: { padding: 16, paddingTop: 125, paddingBottom: 60 },
   statusBarSpacer: { height: 24 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 },
   title: { fontWeight: '800', letterSpacing: -0.5, marginBottom: 4 },

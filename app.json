@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "de.taymaerz.humngry",
-      "versionCode": 4,
+      "versionCode": 5,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/iconnobg.png"

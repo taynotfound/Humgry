@@ -395,6 +395,64 @@ export default function SettingsScreen() {
             </Card.Content>
           </Card>
 
+          <Card style={styles.card}>
+            <Card.Title title="🛠️ Quick Tools" titleStyle={[styles.cardTitle, { fontSize: getFontSize(18) }]} />
+            <Card.Content>
+              <View style={styles.quickToolsGrid}>
+                <Link href="/recipe-builder" asChild>
+                  <Button
+                    mode="outlined"
+                    icon="chef-hat"
+                    style={styles.quickToolButton}
+                    labelStyle={{ fontSize: getFontSize(13) }}
+                  >
+                    Recipe Builder
+                  </Button>
+                </Link>
+                <Link href="/tags-manager" asChild>
+                  <Button
+                    mode="outlined"
+                    icon="tag"
+                    style={styles.quickToolButton}
+                    labelStyle={{ fontSize: getFontSize(13) }}
+                  >
+                    Tags Manager
+                  </Button>
+                </Link>
+                <Link href="/combos-manager" asChild>
+                  <Button
+                    mode="outlined"
+                    icon="lightning-bolt"
+                    style={styles.quickToolButton}
+                    labelStyle={{ fontSize: getFontSize(13) }}
+                  >
+                    Meal Combos
+                  </Button>
+                </Link>
+                <Link href="/fasting" asChild>
+                  <Button
+                    mode="outlined"
+                    icon="timer"
+                    style={styles.quickToolButton}
+                    labelStyle={{ fontSize: getFontSize(13) }}
+                  >
+                    Fasting Timer
+                  </Button>
+                </Link>
+                <Link href="/tdee-calculator" asChild>
+                  <Button
+                    mode="outlined"
+                    icon="calculator"
+                    style={styles.quickToolButton}
+                    labelStyle={{ fontSize: getFontSize(13) }}
+                  >
+                    TDEE Calculator
+                  </Button>
+                </Link>
+              </View>
+            </Card.Content>
+          </Card>
+
           <Card style={[styles.linkCard, { borderLeftColor: accentColor }]}>
             <Card.Content>
               <Link href="/about" asChild>
@@ -1220,5 +1278,15 @@ const styles = StyleSheet.create({
   },
   timeInfoText: {
     lineHeight: 16,
+  },
+  quickToolsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  quickToolButton: {
+    flex: 1,
+    minWidth: '48%',
+    marginBottom: 8,
   },
 });

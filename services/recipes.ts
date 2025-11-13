@@ -1,7 +1,7 @@
 // TheMealDB API integration for recipe ideas
-import { Recipe, Ingredient } from '../types';
+import { Ingredient, Recipe } from '../types';
 
-export type { Recipe, Ingredient };
+export type { Ingredient, Recipe };
 
 export async function getRandomRecipes(count: number = 6): Promise<Recipe[]> {
   try {

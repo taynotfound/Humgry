@@ -5,8 +5,10 @@ import { estimatePrepTime, estimateRecipeCost, estimateServings, generateRecipeC
 import { getRandomRecipes, getRecipesByCategory, Recipe, searchRecipes } from '@/services/recipes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Clipboard from 'expo-clipboard';
-import React, { useEffect, useState } from 'react';
+import { router } from 'expo-router';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
+  FlatList,
   Image,
   Linking,
   Modal,
@@ -364,9 +366,11 @@ export default function RecipesScreen() {
               <Text style={[styles.emptySubtext, { color: colors.textTertiary }]}>Try a different search or category</Text>
             </View>
           ) : (
-            <View style={styles.recipesGrid}>
-              {displayedRecipes.map((recipe) => (
-                <Card key={recipe.id} style={[styles.recipeCard, { backgroundColor: colors.card }]}>
+            <FlatList
+              data={displayedRecipes}
+              keyExtractor={(recipe) => recipe.id}
+              renderItem={({ item: recipe }) => (
+                <Card style={[styles.recipeCard, { backgroundColor: colors.card }]}>
                   {recipe.thumbnail && (
                     <View style={{ position: 'relative' }}>
                       <Image
@@ -458,8 +462,11 @@ export default function RecipesScreen() {
                     </Button>
                   </Card.Content>
                 </Card>
-              ))}
-            </View>
+              )}
+              contentContainerStyle={styles.recipesGrid}
+              showsVerticalScrollIndicator={false}
+              scrollEnabled={false}
+            />
           )}
 
           {!loading && recipes.length > 0 && (
@@ -603,21 +610,34 @@ export default function RecipesScreen() {
                       style={{ borderColor: colors.border, flex: 1 }}
                       labelStyle={{ fontSize: getFontSize(13) }}
                     >
-                      Copy ingredients
+                      Copy
                     </Button>
-                    
+                    <Button
+                      mode="outlined"
+                      onPress={addIngredientsToShoppingList}
+                      icon="cart-outline"
+                      textColor={accentColor}
+                      style={{ borderColor: colors.border, flex: 1 }}
+                      labelStyle={{ fontSize: getFontSize(13) }}
+                    >
+                      Shopping List
+                    </Button>
                   </View>
 
-                  <View style={styles.ingredientsList}>
-                    {selectedRecipe.ingredients.map((ing, idx) => (
-                      <View key={idx} style={styles.ingredientItem}>
+                  <FlatList
+                    data={selectedRecipe.ingredients}
+                    keyExtractor={(ing, idx) => `${selectedRecipe.id}-${idx}`}
+                    renderItem={({ item: ing }) => (
+                      <View style={styles.ingredientItem}>
                         <Text style={[styles.ingredientBullet, { color: accentColor }]}>•</Text>
                         <Text style={[styles.ingredientText, { fontSize: getFontSize(15), color: colors.textSecondary }]}>
                           {scaleMeasure(ing.measure, servings / Math.max(1, baseServings))} {ing.ingredient}
                         </Text>
                       </View>
-                    ))}
-                  </View>
+                    )}
+                    contentContainerStyle={styles.ingredientsList}
+                    scrollEnabled={false}
+                  />
                 </View>
               )}
 
@@ -658,12 +678,36 @@ export default function RecipesScreen() {
 
               <Button
                 mode="contained"
-                onPress={handleAddToMealPlan}
+                onPress={() => {
+                  if (!selectedRecipe) return;
+                  setShowModal(false);
+                  router.push({
+                    pathname: '/cook',
+                    params: {
+                      recipeId: selectedRecipe.id,
+                      recipeName: selectedRecipe.name,
+                      servings: servings.toString(),
+                      instructions: selectedRecipe.instructions,
+                      ingredients: JSON.stringify(selectedRecipe.ingredients || []),
+                    },
+                  });
+                }}
                 style={[styles.addToPlanButton, { marginTop: 16 }]}
                 buttonColor={accentColor}
-                icon="calendar-plus"
+                icon="chef-hat"
                 labelStyle={{ fontSize: getFontSize(15) }}
                 textColor={theme === 'dark' ? '#000' : '#fff'}
+              >
+                👨‍🍳 Start Cooking Mode
+              </Button>
+
+              <Button
+                mode="outlined"
+                onPress={handleAddToMealPlan}
+                style={[styles.addToPlanButton, { marginTop: 8 }]}
+                textColor={accentColor}
+                icon="calendar-plus"
+                labelStyle={{ fontSize: getFontSize(15) }}
               >
                 📅 Add to Meal Plan
               </Button>

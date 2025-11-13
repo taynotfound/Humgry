@@ -8,18 +8,9 @@ import { FoodProduct, calculateNextMealTime, getRandomTip } from '@/services/ope
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { Animated, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Card, Chip, IconButton, MD3DarkTheme, Modal, Provider as PaperProvider, Portal, SegmentedButtons, Text, TextInput } from 'react-native-paper';
+import { Button, Card, Chip, IconButton, Modal, Portal, SegmentedButtons, Text, TextInput } from 'react-native-paper';
 
-const darkTheme = {
-  ...MD3DarkTheme,
-  colors: {
-    ...MD3DarkTheme.colors,
-    primary: '#bb86fc',
-    background: '#0b0b0b',
-    surface: '#1a1a1a',
-    surfaceVariant: '#2a2a2a',
-  },
-};
+// Paper Provider is applied globally via SettingsProvider
 
 export default function HomeScreen() {
   const { entries, addEntry, points } = useEntries();
@@ -224,8 +215,8 @@ export default function HomeScreen() {
   }
 
   return (
-    <PaperProvider theme={darkTheme}>
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <>
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>        
         <ScrollView 
           contentContainerStyle={styles.content}
           keyboardShouldPersistTaps="handled"
@@ -712,7 +703,10 @@ export default function HomeScreen() {
           <Modal
             visible={showCalcModal}
             onDismiss={() => setShowCalcModal(false)}
-            contentContainerStyle={[styles.modalContent, { borderColor: accentColor }]}
+            contentContainerStyle={[
+              styles.modalContent,
+              { borderColor: accentColor, backgroundColor: colors.surface }
+            ]}
           >
             <Text style={[styles.modalTitle, { fontSize: getFontSize(20), color: accentColor }]}>
               📊 How We Calculate Your Next Meal
@@ -751,7 +745,7 @@ export default function HomeScreen() {
                 • Dinner: 5-6 hours
               </Text>
 
-              <Text style={[styles.modalNote, { fontSize: getFontSize(12) }]}>
+              <Text style={[styles.modalNote, { fontSize: getFontSize(12), backgroundColor: colors.surfaceVariant, color: colors.text }]}>                
                 💡 These are estimates based on typical digestion patterns. Everyone's body is different! Use these as gentle reminders, not strict rules.
               </Text>
             </ScrollView>
@@ -868,7 +862,7 @@ export default function HomeScreen() {
       </SafeAreaView>
       <AppBar />
       <AppFooter />
-    </PaperProvider>
+    </>
   );
 }
 

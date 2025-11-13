@@ -2,17 +2,7 @@ import { useSettings } from '@/contexts/settings-context';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, Linking, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Card, Divider, MD3DarkTheme, Provider as PaperProvider, Text } from 'react-native-paper';
-
-const darkTheme = {
-  ...MD3DarkTheme,
-  colors: {
-    ...MD3DarkTheme.colors,
-    primary: '#bb86fc',
-    background: '#0b0b0b',
-    surface: '#1a1a1a',
-  },
-};
+import { Button, Card, Divider, Text } from 'react-native-paper';
 
 export default function AboutScreen() {
   const router = useRouter();
@@ -23,7 +13,6 @@ export default function AboutScreen() {
   };
 
   return (
-    <PaperProvider theme={darkTheme}>
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.content}>
           <View style={styles.statusBarSpacer} />
@@ -196,7 +185,6 @@ export default function AboutScreen() {
           </Card>
         </ScrollView>
       </SafeAreaView>
-    </PaperProvider>
   );
 }
 

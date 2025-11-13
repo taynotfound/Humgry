@@ -1,6 +1,8 @@
 import { AppColors, getThemeColors } from '@/constants/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Provider as PaperProvider, Portal } from 'react-native-paper';
+import { darkTheme as paperDarkTheme, lightTheme as paperLightTheme } from '@/constants/themes';
 
 type TextSize = 'small' | 'normal' | 'large';
 
@@ -140,6 +142,15 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   };
 
   const colors = getThemeColors(theme, accentColor);
+  // Build react-native-paper theme and override primary with accent color
+  const basePaperTheme = theme === 'dark' ? paperDarkTheme : paperLightTheme;
+  const paperTheme = {
+    ...basePaperTheme,
+    colors: {
+      ...basePaperTheme.colors,
+      primary: accentColor,
+    },
+  };
 
   return (
     <SettingsContext.Provider
@@ -159,7 +170,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         getColor,
       }}
     >
-      {children}
+      <PaperProvider theme={paperTheme}>
+        <Portal.Host>{children}</Portal.Host>
+      </PaperProvider>
     </SettingsContext.Provider>
   );
 }

@@ -1,4 +1,4 @@
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import MealComparisonModal from '@/components/MealComparisonModal';
 import MealDetailModal from '@/components/MealDetailModal';
 import { useSettings } from '@/contexts/settings-context';
@@ -120,15 +120,16 @@ export default function HistoryScreen() {
   };
 
   return (
-    <PaperProvider theme={paperTheme}>
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <Animated.View
-          style={{
-            flex: 1,
-            opacity: fadeAnim,
-            transform: [{ translateY: slideAnim }],
-          }}
-        >
+    <>
+      <PaperProvider theme={paperTheme}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+          <Animated.View
+            style={{
+              flex: 1,
+              opacity: fadeAnim,
+              transform: [{ translateY: slideAnim }],
+            }}
+          >
           <ScrollView 
             contentContainerStyle={styles.content}
             refreshControl={
@@ -385,15 +386,15 @@ export default function HistoryScreen() {
           setSelectedForComparison([]);
         }}
       />
-
-      <FloatingNav />
     </PaperProvider>
+    <AppBar />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingBottom: 180 },
+  content: { padding: 16, paddingTop: 122, paddingBottom: 180 },
   statusBarSpacer: { height: 24 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 },
   title: { fontWeight: '800', letterSpacing: -0.5, marginBottom: 4 },

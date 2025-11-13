@@ -1,5 +1,5 @@
 import { BarChart } from '@/components/Charts';
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import React, { memo, useEffect, useMemo, useRef } from 'react';
@@ -196,6 +196,7 @@ export default function StatsScreen() {
   }, [theme, accentColor, colors]);
   
   return (
+    <>
     <PaperProvider theme={paperTheme}>
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
         <Animated.View
@@ -437,14 +438,15 @@ export default function StatsScreen() {
           </ScrollView>
         </Animated.View>
       </SafeAreaView>
-      <FloatingNav />
     </PaperProvider>
+      <AppBar />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingBottom: 100 },
+  content: { padding: 16, paddingTop: 122, paddingBottom: 100 },
   statusBarSpacer: { height: 24 },
   title: { fontSize: 28, fontWeight: '800', marginBottom: 12, letterSpacing: -0.5 },
   screenDescription: { fontSize: 14, lineHeight: 20, marginBottom: 16 },

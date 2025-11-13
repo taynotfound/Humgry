@@ -1,4 +1,4 @@
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import { useSettings } from '@/contexts/settings-context';
 import { estimatePrepTime, estimateRecipeCost, estimateServings, generateRecipeCostInsight } from '@/services/recipeCostEstimator';
 import { getRandomRecipes, getRecipesByCategory, Recipe, searchRecipes } from '@/services/recipes';
@@ -639,8 +639,8 @@ export default function RecipesScreen() {
           </View>
         </Modal>
 
-        <FloatingNav />
       </SafeAreaView>
+      <AppBar />
     </PaperProvider>
   );
 }
@@ -651,6 +651,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+    paddingTop: 122,
     paddingBottom: 100,
   },
   statusBarSpacer: { height: 24 },

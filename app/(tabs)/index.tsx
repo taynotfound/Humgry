@@ -1,4 +1,4 @@
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import FoodPicker from '@/components/FoodPicker';
 import { useSettings } from '@/contexts/settings-context';
 import { MealEntry, useEntries } from '@/hooks/useEntries';
@@ -872,14 +872,14 @@ export default function HomeScreen() {
           </Modal>
         </Portal>
       </SafeAreaView>
-      <FloatingNav />
+      <AppBar />
     </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingBottom: 100 },
+  content: { padding: 16, paddingTop: 122, paddingBottom: 100 },
   statusBarSpacer: { height: 24 },
   header: { marginBottom: 16 },
   titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },

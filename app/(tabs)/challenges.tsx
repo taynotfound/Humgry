@@ -1,4 +1,4 @@
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import { useGameProgress } from '@/hooks/useGameProgress';
@@ -352,8 +352,8 @@ export default function ChallengesScreen() {
         </Modal>
       </Portal>
         </ScrollView>
-        <FloatingNav />
       </SafeAreaView>
+      <AppBar />
     </PaperProvider>
   );
 }
@@ -369,6 +369,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+    paddingTop: 122,
     paddingBottom: 100,
   },
   statsCard: {
@@ -414,6 +415,8 @@ const styles = StyleSheet.create({
   },
   achievementChip: {
     backgroundColor: '#E8F5E9',
+    height: 32,
+    paddingVertical: 4,
   },
   recommendedCard: {
     marginBottom: 16,
@@ -468,11 +471,9 @@ const styles = StyleSheet.create({
   },
   difficultyChip: {
     height: 28,
-    paddingVertical: 2,
   },
   typeChip: {
     height: 28,
-    paddingVertical: 2,
     backgroundColor: '#E3F2FD',
   },
   completedBadge: {

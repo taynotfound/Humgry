@@ -1,4 +1,4 @@
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import { getNotificationSettings, NotificationSettings, saveNotificationSettings, scheduleSmartNotifications } from '@/services/notifications';
@@ -91,6 +91,7 @@ export default function SettingsScreen() {
   }
 
   return (
+    <>
     <PaperProvider theme={darkTheme}>
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
         <ScrollView contentContainerStyle={styles.content}>
@@ -750,8 +751,6 @@ export default function SettingsScreen() {
           </Modal>
         </Portal>
       </SafeAreaView>
-      <FloatingNav />
-
       {/* Notification Frequency Modal */}
       <Portal>
         <Modal
@@ -851,13 +850,15 @@ export default function SettingsScreen() {
         </Modal>
       </Portal>
     </PaperProvider>
+      <AppBar />
+    </>
   );
 }
 
 // Note: Styles will be dynamically adjusted by getFontSize() in components
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingBottom: 100 },
+  content: { padding: 16, paddingTop: 122, paddingBottom: 100 },
   statusBarSpacer: { height: 24 },
   title: { fontSize: 28, fontWeight: '800', marginBottom: 16, letterSpacing: -0.5 },
   card: { marginBottom: 16, borderRadius: 12, elevation: 4 },

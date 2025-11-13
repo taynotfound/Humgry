@@ -1,4 +1,4 @@
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import { useGameProgress } from '@/hooks/useGameProgress';
@@ -409,8 +409,8 @@ export default function ScoreCardScreen() {
         </Modal>
       </Portal>
         </ScrollView>
-        <FloatingNav />
       </SafeAreaView>
+      <AppBar />
     </PaperProvider>
   );
 }
@@ -426,6 +426,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+    paddingTop: 122,
     paddingBottom: 100,
   },
   header: {
@@ -552,7 +553,7 @@ const styles = StyleSheet.create({
   achievementChip: {
     backgroundColor: '#E8F5E9',
     height: 32,
-    paddingVertical: 2,
+    paddingVertical: 4,
   },
   streaksCard: {
     marginBottom: 16,

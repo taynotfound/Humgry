@@ -1,4 +1,4 @@
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import { useLevels } from '@/hooks/useLevels';
@@ -872,7 +872,7 @@ export default function GoalsScreen() {
           )}
         </ScrollView>
       </SafeAreaView>
-      <FloatingNav />
+      <AppBar />
 
       {/* Recipe Detail Modal */}
       <Modal
@@ -1099,7 +1099,7 @@ export default function GoalsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingBottom: 100 },
+  content: { padding: 16, paddingTop: 122, paddingBottom: 100 },
   statusBarSpacer: { height: 24 },
   title: { fontSize: 28, fontWeight: '800', marginBottom: 12, letterSpacing: -0.5 },
   screenDescription: { fontSize: 14, lineHeight: 20, marginBottom: 16 },

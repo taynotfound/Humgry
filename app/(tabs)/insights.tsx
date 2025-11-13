@@ -1,4 +1,4 @@
-import FloatingNav from '@/components/FloatingNav';
+import AppBar from '@/components/AppBar';
 import { useSettings } from '@/contexts/settings-context';
 import { useEntries } from '@/hooks/useEntries';
 import { calculateCostPerCalorie, generateCostInsights, getMonthlyBreakdown } from '@/services/costAnalysis';
@@ -37,6 +37,7 @@ export default function InsightsScreen() {
     currentHunger.score <= 8 ? '#FF9800' : '#F44336';
 
   return (
+    <>
     <PaperProvider theme={darkTheme}>
       <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
         <ScrollView contentContainerStyle={styles.content}>
@@ -288,14 +289,15 @@ export default function InsightsScreen() {
           <View style={{ height: 100 }} />
         </ScrollView>
       </SafeAreaView>
-      <FloatingNav />
     </PaperProvider>
+      <AppBar />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, paddingBottom: 100 },
+  content: { padding: 16, paddingTop: 122, paddingBottom: 100 },
   statusBarSpacer: { height: 24 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 },
   title: { fontWeight: '800', letterSpacing: -0.5, marginBottom: 4 },

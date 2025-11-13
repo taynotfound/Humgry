@@ -345,34 +345,6 @@ The app features a modern Material Design 3 interface with extensive customizati
 - **Photo upload**: No meal photo capture/storage
 - **Export formats**: Limited to CSV only (no PDF or other formats)
 
-## Future Enhancements
-
-### High Priority
-- [ ] **Barcode scanner**: Quick product lookup via camera
-- [ ] **Cloud sync**: Backup and restore across devices
-- [ ] **User accounts**: Authentication and profile management
-- [ ] **Photo capture**: Take photos of meals for visual tracking
-- [ ] **Fitness tracker integration**: Sync with Google Fit, Apple Health
-- [ ] **More export formats**: PDF reports, JSON backup
-- [ ] **iOS optimizations**: Extensive testing and platform-specific improvements
-
-### Medium Priority
-- [ ] **Advanced recipe filtering**: Allergies, cooking time, difficulty
-- [ ] **Nutrition AI assistant**: Personalized meal suggestions based on history
-- [ ] **Social feed**: See friends' meals and achievements (opt-in)
-- [ ] **Custom challenges**: Create and share your own challenges
-- [ ] **Shopping list sync**: Integration with grocery apps
-- [ ] **Custom foods**: Add homemade meals with nutrition calculator
-- [ ] **Weight tracking**: Log and chart weight over time
-
-### Nice to Have
-- [ ] **Voice input**: "I ate a banana" to log meals
-- [ ] **Smart watch support**: Quick logging from wrist
-- [ ] **Restaurant database**: Nutritional info for dining out
-- [ ] **Macro meal prep calculator**: Bulk meal planning
-- [ ] **Recipe creator**: Build custom recipes with cost calculation
-- [ ] **Gamification expansion**: More badges, achievements, leaderboards
-- [ ] **Sleep tracking**: Correlate eating patterns with sleep quality
 
 ## Developer
 

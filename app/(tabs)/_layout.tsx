@@ -22,6 +22,11 @@ export default function TabLayout() {
       <Stack.Screen name="recipes" />
       <Stack.Screen name="goals" />
       <Stack.Screen name="settings" />
+      <Stack.Screen name="recipe-builder" />
+      <Stack.Screen name="tags-manager" />
+      <Stack.Screen name="combos-manager" />
+      <Stack.Screen name="tdee-calculator" />
+      <Stack.Screen name="fasting" />
     </Stack>
   );
 }

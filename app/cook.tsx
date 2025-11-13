@@ -1,21 +1,19 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Dimensions,
-  Platform,
-  Image,
-  StatusBar,
-  Pressable,
-} from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { IconButton, Text, Surface } from 'react-native-paper';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
-import * as ScreenOrientation from 'expo-screen-orientation';
+import { router, useLocalSearchParams } from 'expo-router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  Dimensions,
+  FlatList,
+  Platform,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+  View
+} from 'react-native';
+import { IconButton, Surface, Text } from 'react-native-paper';
 import { useSettings } from '../contexts/settings-context';
-import { CookingStep } from '../types';
 import { useEntries } from '../hooks/useEntries';
+import { CookingStep } from '../types';
 
 export default function CookScreen() {
   const params = useLocalSearchParams();

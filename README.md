@@ -1,4 +1,14 @@
-# Humngry 🍽️ [![wakatime](https://wakatime.com/badge/user/c79782f6-783d-42c2-aa21-a35d975705b5/project/6d957eac-d9fa-4a69-8507-51c911892a4f.svg)](https://wakatime.com/badge/user/c79782f6-783d-42c2-aa21-a35d975705b5/project/6d957eac-d9fa-4a69-8507-51c911892a4f)
+# Humngry 🍽️
+
+<img src="assets/images/iconnobg.png" alt="Humngry Icon" width="72" height="72" />
+
+[![wakatime](https://wakatime.com/badge/user/c79782f6-783d-42c2-aa21-a35d975705b5/project/6d957eac-d9fa-4a69-8507-51c911892a4f.svg)](https://wakatime.com/badge/user/c79782f6-783d-42c2-aa21-a35d975705b5/project/6d957eac-d9fa-4a69-8507-51c911892a4f)
+[![Made on Arch Linux](https://img.shields.io/badge/Made%20on-Arch%20Linux-1793D1?style=flat&logo=arch-linux&logoColor=white)](https://archlinux.org/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.81-61DAFB?style=flat&logo=react&logoColor=white)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-SDK%2054-000020?style=flat&logo=expo&logoColor=white)](https://expo.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
+[![GitHub Release](https://img.shields.io/github/v/release/taynotfound/Humgry?style=flat&logo=github)](https://github.com/taynotfound/Humgry/releases)
 
 **Never forget to eat again!** A comprehensive meal tracking and nutrition management app designed for people who get absorbed in work and forget to eat. Features smart meal predictions, gamification, recipe discovery, weekly challenges, detailed analytics, and meal planning.
 

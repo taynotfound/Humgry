@@ -114,6 +114,39 @@ export default function AboutScreen() {
           </Card>
 
           <Card style={styles.card}>
+            <Card.Title title="📦 Updates & Source" titleStyle={styles.cardTitle} />
+            <Card.Content>
+              <View style={styles.linksSection}>
+                <Button
+                  mode="contained-tonal"
+                  onPress={() => Linking.openURL('https://github.com/taynotfound/Humgry/releases')}
+                  style={styles.linkButton}
+                  icon="download"
+                  buttonColor={`${accentColor}33`}
+                  textColor={accentColor}
+                  labelStyle={{ fontSize: getFontSize(15) }}
+                >
+                  📥 Download Latest Release
+                </Button>
+                <Button
+                  mode="contained-tonal"
+                  onPress={() => Linking.openURL('https://github.com/taynotfound/Humgry')}
+                  style={styles.linkButton}
+                  icon="github"
+                  buttonColor={`${accentColor}33`}
+                  textColor={accentColor}
+                  labelStyle={{ fontSize: getFontSize(15) }}
+                >
+                  💻 View on GitHub
+                </Button>
+                <Text style={styles.updateText}>
+                  Check for updates and view the source code on GitHub. All releases are available as APK downloads.
+                </Text>
+              </View>
+            </Card.Content>
+          </Card>
+
+          <Card style={styles.card}>
             <Card.Title title="🔒 Data & Privacy" titleStyle={styles.cardTitle} />
             <Card.Content>
               <Text style={styles.bodyText}>
@@ -242,5 +275,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     marginTop: 4,
+  },
+  linksSection: {
+    gap: 12,
+  },
+  linkButton: {
+    marginVertical: 4,
+  },
+  updateText: {
+    color: '#bbb',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 8,
+    lineHeight: 20,
   },
 });

@@ -6,8 +6,8 @@ import { useSettings } from '@/contexts/settings-context';
 import type { MealEntry } from '@/hooks/useEntries';
 import { useEntries } from '@/hooks/useEntries';
 import { format } from 'date-fns';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, FlatList, Image, RefreshControl, SafeAreaView, ScrollView, Share, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, Image, RefreshControl, SafeAreaView, ScrollView, Share, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { Card, Chip, FAB, MD3DarkTheme, MD3LightTheme, Provider as PaperProvider, Text } from 'react-native-paper';
 
 export default function HistoryScreen() {

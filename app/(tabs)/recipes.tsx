@@ -6,27 +6,27 @@ import { getRandomRecipes, getRecipesByCategory, Recipe, searchRecipes } from '@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Clipboard from 'expo-clipboard';
 import { router } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  FlatList,
-  Image,
-  Linking,
-  Modal,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View
+    FlatList,
+    Image,
+    Linking,
+    Modal,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import {
-  ActivityIndicator,
-  Button,
-  Card,
-  Chip,
-  IconButton,
-  RadioButton,
-  Searchbar,
-  Text
+    ActivityIndicator,
+    Button,
+    Card,
+    Chip,
+    IconButton,
+    RadioButton,
+    Searchbar,
+    Text
 } from 'react-native-paper';
 
 export default function RecipesScreen() {

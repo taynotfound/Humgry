@@ -1,8 +1,7 @@
-import { AppColors, getThemeColors } from '@/constants/themes';
+import { AppColors, getThemeColors, darkTheme as paperDarkTheme, lightTheme as paperLightTheme } from '@/constants/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Provider as PaperProvider, Portal } from 'react-native-paper';
-import { darkTheme as paperDarkTheme, lightTheme as paperLightTheme } from '@/constants/themes';
 
 type TextSize = 'small' | 'normal' | 'large';
 

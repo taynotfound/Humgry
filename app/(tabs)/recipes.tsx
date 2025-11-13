@@ -4,27 +4,27 @@ import { useSettings } from '@/contexts/settings-context';
 import { estimatePrepTime, estimateRecipeCost, estimateServings, generateRecipeCostInsight } from '@/services/recipeCostEstimator';
 import { getRandomRecipes, getRecipesByCategory, Recipe, searchRecipes } from '@/services/recipes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Clipboard from 'expo-clipboard';
 import React, { useEffect, useState } from 'react';
 import {
-    Image,
-    Linking,
-    Modal,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    TouchableOpacity,
-    View
+  Image,
+  Linking,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import {
-    ActivityIndicator,
-    Button,
-    Card,
-    Chip,
-    IconButton,
-    Provider as PaperProvider,
-    RadioButton,
-    Searchbar,
-    Text
+  ActivityIndicator,
+  Button,
+  Card,
+  Chip,
+  IconButton,
+  RadioButton,
+  Searchbar,
+  Text
 } from 'react-native-paper';
 
 export default function RecipesScreen() {
@@ -35,6 +35,9 @@ export default function RecipesScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [baseServings, setBaseServings] = useState<number>(2);
+  const [servings, setServings] = useState<number>(2);
+  const [baseTotalCost, setBaseTotalCost] = useState<number>(0);
   const [showMealPlanDialog, setShowMealPlanDialog] = useState(false);
   const [selectedDay, setSelectedDay] = useState('Monday');
   const [selectedMealTime, setSelectedMealTime] = useState('breakfast');
@@ -145,8 +148,46 @@ export default function RecipesScreen() {
       recipe.estimatedTime = estimatePrepTime(recipe.ingredients, recipe.instructions);
       recipe.servings = estimateServings(recipe.ingredients);
     }
+    const initialServings = recipe.servings || (recipe.ingredients ? estimateServings(recipe.ingredients) : 2);
+    setBaseServings(initialServings);
+    setServings(initialServings);
+    setBaseTotalCost(recipe.estimatedCost || (recipe.ingredients ? estimateRecipeCost(recipe.ingredients) : 0));
     setSelectedRecipe(recipe);
     setShowModal(true);
+  };
+
+  const copyIngredientsToClipboard = async () => {
+    if (!selectedRecipe || !selectedRecipe.ingredients) return;
+    const factor = servings / Math.max(1, baseServings);
+    const lines = selectedRecipe.ingredients.map((ing) => `${scaleMeasure(ing.measure, factor)} ${ing.ingredient}`.trim());
+    await Clipboard.setStringAsync(lines.join('\n'));
+    alert('✅ Ingredients copied to clipboard');
+  };
+
+  const addIngredientsToShoppingList = async () => {
+    if (!selectedRecipe || !selectedRecipe.ingredients) return;
+    const factor = servings / Math.max(1, baseServings);
+    const items = selectedRecipe.ingredients.map((ing) => ({
+      id: `${selectedRecipe.id}-${ing.ingredient}`,
+      ingredient: ing.ingredient,
+      measure: scaleMeasure(ing.measure, factor),
+      recipeId: selectedRecipe.id,
+      recipeName: selectedRecipe.name,
+      checked: false,
+      addedAt: Date.now(),
+    }));
+    try {
+      const existing = await AsyncStorage.getItem('humngry.shoppingList');
+      const list = existing ? JSON.parse(existing) : [];
+      const dedup = new Map(list.map((i: any) => [i.id, i]));
+      for (const it of items) dedup.set(it.id, it);
+      const next = Array.from(dedup.values());
+      await AsyncStorage.setItem('humngry.shoppingList', JSON.stringify(next));
+      alert(`🛒 Added ${items.length} ingredients to shopping list`);
+    } catch (e) {
+      console.error('Failed to add shopping list items', e);
+      alert('❌ Failed to add to shopping list');
+    }
   };
 
   const openSource = (url: string) => {
@@ -191,9 +232,49 @@ export default function RecipesScreen() {
     }
   };
 
+  // Helpers to scale ingredient measures by servings
+  const parseQuantity = (measure: string): { qty: number; rest: string } | null => {
+    const m = measure.trim().match(/^(\d+(?:\.\d+)?(?:\s+\d+\/\d+)?|\d+\/\d+)\s*(.*)$/);
+    if (!m) return null;
+    const numStr = m[1];
+    const rest = m[2] || '';
+    const parts = numStr.split(' ');
+    let total = 0;
+    for (const p of parts) {
+      if (/^\d+\/\d+$/.test(p)) {
+        const [a, b] = p.split('/').map(Number);
+        if (b !== 0) total += a / b;
+      } else {
+        const n = parseFloat(p);
+        if (!isNaN(n)) total += n;
+      }
+    }
+    if (total === 0) return null;
+    return { qty: total, rest };
+  };
+
+  const formatQty = (n: number): string => {
+    const rounded = Math.round(n * 100) / 100;
+    if (Math.abs(rounded - Math.round(rounded)) < 0.05) return String(Math.round(rounded));
+    return rounded.toString();
+  };
+
+  const scaleMeasure = (measure: string, factor: number): string => {
+    const parsed = parseQuantity(measure);
+    if (!parsed) return measure;
+    const newQty = parsed.qty * factor;
+    return `${formatQty(newQty)} ${parsed.rest}`.trim();
+  };
+
+  const costForServings = (baseCost: number, baseSrv: number, srv: number): { total: number; per: number } => {
+    const per = Math.round(((baseSrv > 0 ? baseCost / baseSrv : baseCost)) * 100) / 100;
+    const total = Math.round((per * srv) * 100) / 100;
+    return { total, per: Math.round((total / Math.max(1, srv)) * 100) / 100 };
+  };
+
   return (
-    <PaperProvider>
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <>
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>      
         <ScrollView contentContainerStyle={styles.content}>
           <View style={styles.statusBarSpacer} />
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -413,6 +494,12 @@ export default function RecipesScreen() {
                 {selectedRecipe?.name}
               </Text>
               <IconButton
+                icon={selectedRecipe && favorites.has(selectedRecipe.id) ? 'heart' : 'heart-outline'}
+                iconColor={favorites.has(selectedRecipe?.id || '') ? accentColor : colors.text}
+                size={24}
+                onPress={() => selectedRecipe && toggleFavorite(selectedRecipe.id, selectedRecipe)}
+              />
+              <IconButton
                 icon="open-in-new"
                 iconColor={accentColor}
                 size={24}
@@ -451,12 +538,82 @@ export default function RecipesScreen() {
               {selectedRecipe?.ingredients && selectedRecipe.ingredients.length > 0 && (
                 <View style={styles.section}>
                   <Text style={[styles.sectionTitle, { fontSize: getFontSize(18), color: colors.text }]}>🥘 Ingredients</Text>
+                  <View style={[styles.servingsRow, { borderColor: colors.border }]}> 
+                    <Text style={{ color: colors.textSecondary, fontSize: getFontSize(14), fontWeight: '700' }}>Servings</Text>
+                    <View style={styles.servingsControls}>
+                      <TouchableOpacity
+                        onPress={() => setServings(Math.max(1, servings - 1))}
+                        style={[styles.servingsBtn, { backgroundColor: colors.surfaceVariant, borderColor: colors.border }]}
+                        activeOpacity={0.7}
+                      >
+                        <Text style={{ color: colors.text, fontSize: getFontSize(18), fontWeight: '800' }}>−</Text>
+                      </TouchableOpacity>
+                      <Text style={{ color: colors.text, fontSize: getFontSize(16), fontWeight: '800', minWidth: 28, textAlign: 'center' }}>
+                        {servings}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => setServings(Math.min(20, servings + 1))}
+                        style={[styles.servingsBtn, { backgroundColor: colors.surfaceVariant, borderColor: colors.border }]}
+                        activeOpacity={0.7}
+                      >
+                        <Text style={{ color: colors.text, fontSize: getFontSize(18), fontWeight: '800' }}>+</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  {/* Quick presets */}
+                  <View style={styles.servingPresetRow}>
+                    {[2, 4, 6].map((n) => (
+                      <TouchableOpacity
+                        key={n}
+                        onPress={() => setServings(n)}
+                        style={[styles.servingPresetBtn, { backgroundColor: servings === n ? `${accentColor}33` : colors.surfaceVariant, borderColor: servings === n ? accentColor : colors.border }]}
+                        activeOpacity={0.8}
+                      >
+                        <Text style={{ color: colors.text, fontWeight: '700' }}>{n}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+
+                  <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>
+                    {(() => {
+                      const { total, per } = costForServings(baseTotalCost, baseServings, servings);
+                      const time = selectedRecipe?.estimatedTime || 0;
+                      return (
+                        <>
+                          <Chip compact style={{ backgroundColor: colors.surfaceVariant }} textStyle={{ color: colors.text }} icon="currency-usd">
+                            ~${per.toFixed(2)}/serv • ~${total.toFixed(2)} total
+                          </Chip>
+                          {time > 0 && (
+                            <Chip compact style={{ backgroundColor: colors.surfaceVariant }} textStyle={{ color: colors.text }} icon="clock-outline">
+                              ~{time} min
+                            </Chip>
+                          )}
+                        </>
+                      );
+                    })()}
+                  </View>
+                  {/* Actions */}
+                  <View style={{ flexDirection: 'row', gap: 8, marginBottom: 8, paddingHorizontal: 16 }}>
+                    <Button
+                      mode="outlined"
+                      onPress={copyIngredientsToClipboard}
+                      icon="content-copy"
+                      textColor={accentColor}
+                      style={{ borderColor: colors.border, flex: 1 }}
+                      labelStyle={{ fontSize: getFontSize(13) }}
+                    >
+                      Copy ingredients
+                    </Button>
+                    
+                  </View>
+
                   <View style={styles.ingredientsList}>
                     {selectedRecipe.ingredients.map((ing, idx) => (
                       <View key={idx} style={styles.ingredientItem}>
                         <Text style={[styles.ingredientBullet, { color: accentColor }]}>•</Text>
                         <Text style={[styles.ingredientText, { fontSize: getFontSize(15), color: colors.textSecondary }]}>
-                          {ing.measure} {ing.ingredient}
+                          {scaleMeasure(ing.measure, servings / Math.max(1, baseServings))} {ing.ingredient}
                         </Text>
                       </View>
                     ))}
@@ -643,7 +800,7 @@ export default function RecipesScreen() {
       </SafeAreaView>
       <AppBar />
       <AppFooter />
-    </PaperProvider>
+    </>
   );
 }
 
@@ -852,6 +1009,42 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     lineHeight: 24,
+  },
+  servingsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    marginTop: 6,
+    marginBottom: 8,
+    paddingHorizontal: 16,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+  },
+  servingsControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  servingsBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  servingPresetRow: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+  },
+  servingPresetBtn: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    borderWidth: 1,
   },
   youtubeButton: {
     marginHorizontal: 16,

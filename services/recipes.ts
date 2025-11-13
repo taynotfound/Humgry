@@ -1,35 +1,20 @@
 // TheMealDB API integration for recipe ideas
-export interface Recipe {
-  id: string;
-  name: string;
-  category: string;
-  area: string;
-  instructions: string;
-  thumbnail: string;
-  ingredients: Array<{ ingredient: string; measure: string }>;
-  youtubeUrl?: string;
-  sourceUrl: string;
-  estimatedCost?: number; // Estimated cost to make
-  estimatedTime?: number; // Minutes to prepare
-  servings?: number; // Number of servings
-}
+import { Recipe, Ingredient } from '../types';
+
+export type { Recipe, Ingredient };
 
 export async function getRandomRecipes(count: number = 6): Promise<Recipe[]> {
   try {
-    const recipes: Recipe[] = [];
+    // Fetch all random recipes in parallel for better performance
+    const fetchPromises = Array.from({ length: count }, () =>
+      fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+        .then(res => res.json())
+        .then(data => data.meals?.[0] ? parseRecipe(data.meals[0]) : null)
+        .catch(() => null)
+    );
     
-    // Fetch random recipes
-    for (let i = 0; i < count; i++) {
-      const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
-      const data = await response.json();
-      
-      if (data.meals && data.meals[0]) {
-        const meal = data.meals[0];
-        recipes.push(parseRecipe(meal));
-      }
-    }
-    
-    return recipes;
+    const results = await Promise.all(fetchPromises);
+    return results.filter((recipe): recipe is Recipe => recipe !== null);
   } catch (error) {
     console.error('TheMealDB random recipes error:', error);
     return [];
@@ -82,31 +67,31 @@ export async function getRecipesByCategory(category: string): Promise<Recipe[]> 
 }
 
 function parseRecipe(meal: any): Recipe {
-  const ingredients: Array<{ ingredient: string; measure: string }> = [];
+  const ingredients: Ingredient[] = [];
   
-  // Extract ingredients (up to 20)
+  // Extract ingredients (up to 20) with nullish guards
   for (let i = 1; i <= 20; i++) {
-    const ingredient = meal[`strIngredient${i}`];
-    const measure = meal[`strMeasure${i}`];
+    const ingredient = meal?.[`strIngredient${i}`];
+    const measure = meal?.[`strMeasure${i}`];
     
-    if (ingredient && ingredient.trim()) {
+    if (ingredient && typeof ingredient === 'string' && ingredient.trim()) {
       ingredients.push({
         ingredient: ingredient.trim(),
-        measure: measure ? measure.trim() : '',
+        measure: measure && typeof measure === 'string' ? measure.trim() : '',
       });
     }
   }
   
   return {
-    id: meal.idMeal,
-    name: meal.strMeal,
-    category: meal.strCategory || '',
-    area: meal.strArea || '',
-    instructions: meal.strInstructions || '',
-    thumbnail: meal.strMealThumb || '',
+    id: meal?.idMeal ?? `recipe-${Date.now()}`,
+    name: meal?.strMeal ?? 'Unknown Recipe',
+    category: meal?.strCategory ?? '',
+    area: meal?.strArea ?? '',
+    instructions: meal?.strInstructions ?? '',
+    thumbnail: meal?.strMealThumb ?? '',
     ingredients,
-    youtubeUrl: meal.strYoutube,
-    sourceUrl: meal.strSource || `https://www.themealdb.com/meal/${meal.idMeal}`,
+    youtubeUrl: meal?.strYoutube,
+    sourceUrl: meal?.strSource ?? `https://www.themealdb.com/meal/${meal?.idMeal ?? ''}`,
   };
 }
 

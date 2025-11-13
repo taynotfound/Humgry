@@ -46,9 +46,19 @@ export default function FloatingNav() {
       ]
     },
     {
-      title: 'More',
+      title: 'Recipes & Tools',
       items: [
         { label: 'Recipes', icon: '📚', route: '/recipes', description: 'Recipe ideas' },
+        { label: 'Recipe Builder', icon: '👨‍🍳', route: '/recipe-builder', description: 'Create recipes' },
+        { label: 'Fasting Timer', icon: '⏱️', route: '/fasting', description: 'Track fasting' },
+        { label: 'TDEE Calculator', icon: '🧮', route: '/tdee-calculator', description: 'Calculate TDEE' },
+      ]
+    },
+    {
+      title: 'Management',
+      items: [
+        { label: 'Tags Manager', icon: '🏷️', route: '/tags-manager', description: 'Manage tags' },
+        { label: 'Meal Combos', icon: '⚡', route: '/combos-manager', description: 'Manage combos' },
         { label: 'Settings', icon: '⚙️', route: '/settings', description: 'App settings' },
       ]
     }

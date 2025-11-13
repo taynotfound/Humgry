@@ -1,19 +1,7 @@
 // OpenFoodFacts API integration
-export interface FoodProduct {
-  id: string;
-  name: string;
-  brands?: string;
-  image_url?: string;
-  nutriments: {
-    'energy-kcal_100g'?: number;
-    proteins_100g?: number;
-    carbohydrates_100g?: number;
-    fat_100g?: number;
-    fiber_100g?: number;
-  };
-  serving_size?: string;
-  nutriscore_grade?: string;
-}
+import { FoodProduct, Nutriments, isValidNutriments } from '../types';
+
+export type { FoodProduct, Nutriments };
 
 export async function searchFood(query: string): Promise<FoodProduct[]> {
   if (!query || query.length < 2) return [];
@@ -32,10 +20,10 @@ export async function searchFood(query: string): Promise<FoodProduct[]> {
     
     // Filter and score results
     const scoredProducts = data.products
-      .filter((p: any) => p.product_name && p.nutriments)
+      .filter((p: any) => p?.product_name && isValidNutriments(p?.nutriments))
       .map((p: any) => {
-        const nameLower = (p.product_name || '').toLowerCase();
-        const genericName = (p.generic_name || '').toLowerCase();
+        const nameLower = (p?.product_name ?? '').toLowerCase();
+        const genericName = (p?.generic_name ?? '').toLowerCase();
         
         // Scoring: prefer exact matches and simple products without brands
         let score = 0;
@@ -64,19 +52,19 @@ export async function searchFood(query: string): Promise<FoodProduct[]> {
         return {
           score,
           product: {
-            id: p.code || p._id,
-            name: p.product_name,
-            brands: p.brands,
-            image_url: p.image_url || p.image_front_url || p.image_small_url,
+            id: p?.code ?? p?._id ?? `food-${Date.now()}`,
+            name: p?.product_name ?? 'Unknown Product',
+            brands: p?.brands,
+            image_url: p?.image_url ?? p?.image_front_url ?? p?.image_small_url,
             nutriments: {
-              'energy-kcal_100g': p.nutriments['energy-kcal_100g'] || p.nutriments['energy-kcal'],
-              proteins_100g: p.nutriments.proteins_100g || p.nutriments.proteins,
-              carbohydrates_100g: p.nutriments.carbohydrates_100g || p.nutriments.carbohydrates,
-              fat_100g: p.nutriments.fat_100g || p.nutriments.fat,
-              fiber_100g: p.nutriments.fiber_100g || p.nutriments.fiber,
+              'energy-kcal_100g': p?.nutriments?.['energy-kcal_100g'] ?? p?.nutriments?.['energy-kcal'],
+              proteins_100g: p?.nutriments?.proteins_100g ?? p?.nutriments?.proteins,
+              carbohydrates_100g: p?.nutriments?.carbohydrates_100g ?? p?.nutriments?.carbohydrates,
+              fat_100g: p?.nutriments?.fat_100g ?? p?.nutriments?.fat,
+              fiber_100g: p?.nutriments?.fiber_100g ?? p?.nutriments?.fiber,
             },
-            serving_size: p.serving_size,
-            nutriscore_grade: p.nutriscore_grade,
+            serving_size: p?.serving_size,
+            nutriscore_grade: p?.nutriscore_grade,
           },
         };
       });
@@ -100,20 +88,22 @@ export async function getFoodByBarcode(barcode: string): Promise<FoodProduct | n
     if (data.status !== 1 || !data.product) return null;
     
     const p = data.product;
+    if (!p || !isValidNutriments(p.nutriments)) return null;
+    
     return {
-      id: p.code || barcode,
-      name: p.product_name,
-      brands: p.brands,
-      image_url: p.image_url || p.image_front_url,
+      id: p?.code ?? barcode,
+      name: p?.product_name ?? 'Unknown Product',
+      brands: p?.brands,
+      image_url: p?.image_url ?? p?.image_front_url,
       nutriments: {
-        'energy-kcal_100g': p.nutriments['energy-kcal_100g'],
-        proteins_100g: p.nutriments.proteins_100g,
-        carbohydrates_100g: p.nutriments.carbohydrates_100g,
-        fat_100g: p.nutriments.fat_100g,
-        fiber_100g: p.nutriments.fiber_100g,
+        'energy-kcal_100g': p?.nutriments?.['energy-kcal_100g'],
+        proteins_100g: p?.nutriments?.proteins_100g,
+        carbohydrates_100g: p?.nutriments?.carbohydrates_100g,
+        fat_100g: p?.nutriments?.fat_100g,
+        fiber_100g: p?.nutriments?.fiber_100g,
       },
-      serving_size: p.serving_size,
-      nutriscore_grade: p.nutriscore_grade,
+      serving_size: p?.serving_size,
+      nutriscore_grade: p?.nutriscore_grade,
     };
   } catch (error) {
     console.error('OpenFoodFacts barcode lookup error:', error);

@@ -4,7 +4,7 @@
     "slug": "humngry",
     "version": "1.4.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/iconnobg.png",
     "scheme": "humngry",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

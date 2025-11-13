@@ -40,7 +40,7 @@ export default function AboutScreen() {
               Back to Settings
             </Button>
             <Image 
-              source={require('@/assets/images/icon.png')} 
+              source={require('@/assets/images/iconnobg.png')} 
               style={styles.appIcon}
             />
             <Text style={styles.title}>ℹ️ About Humngry</Text>
@@ -97,6 +97,17 @@ export default function AboutScreen() {
                   labelStyle={{ fontSize: getFontSize(15) }}
                 >
                   Visit taymaerz.de
+                </Button>
+                <Button
+                  mode="outlined"
+                  onPress={() => Linking.openURL('https://github.com/taynotfound/Humngry/blob/main/LICENSE')}
+                  style={[styles.kofiButton, { borderColor: accentColor, marginTop: 8 }]}
+                  icon="shield-lock"
+                  textColor={accentColor}
+                  buttonColor="transparent"
+                  labelStyle={{ fontSize: getFontSize(15) }}
+                >
+                  View License (AGPL v3)
                 </Button>
                 <Button
                   mode="outlined"

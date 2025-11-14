@@ -407,7 +407,7 @@ export default function HomeScreen() {
                       onPress={() => setFullness(String(level))}
                     >
                       <Text style={styles.fullnessEmoji}>
-                        {level === 1 ? '😋' : level === 2 ? '🙂' : level === 3 ? '😐' : level === 4 ? '😊' : '😌'}
+                        {level === 1 ? '😞' : level === 2 ? '🫤' : level === 3 ? '😐' : level === 4 ? '😊' : '😌'}
                       </Text>
                       <Text style={[styles.fullnessNumber, { fontSize: getFontSize(13) }]}>{level}</Text>
                     </TouchableOpacity>
